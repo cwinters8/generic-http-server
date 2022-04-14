@@ -16,3 +16,11 @@ air
 go build -o ./tmp/main .
 ./tmp/main
 ```
+
+## Endpoints
+
+Only the / endpoint is currently implemented.
+
+```sh
+curl --request GET --url http://localhost:8080/
+```
