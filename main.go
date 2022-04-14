@@ -1,15 +1,27 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
 	ratelimiter "github.com/cwinters8/rate-limiter"
 )
 
 func hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprint(w, "Hello, world!")
+	msg, err := json.Marshal(struct {
+		Message   string    `json:"message"`
+		Timestamp time.Time `json:"timestamp"`
+	}{
+		Message:   "Hello, world!",
+		Timestamp: time.Now(),
+	})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(msg)
 }
 
 func setup() error {
